@@ -1,9 +1,15 @@
-import React, { createContext, useState, useEffect, useContext } from "react"
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  FC,
+} from "react"
 
-const ParentContext = createContext(null)
+const ParentContext = createContext<null | string>(null)
 
 export const useParentContextState = () => {
-  const [connection, setConnection] = useState<any>()
+  const [connection, setConnection] = useState<null | string>(null)
   useEffect(() => {
     setTimeout(() => {
       setConnection("foo")
@@ -12,9 +18,10 @@ export const useParentContextState = () => {
   return connection
 }
 
-export const ParentContextProvider = (props) => {
+export const ParentContextProvider: FC<{}> = (props) => {
   const context = useParentContextState()
   return <ParentContext.Provider value={context} {...props} />
 }
 
 export const useParentContext = () => useContext(ParentContext)
+export const ParentContextConsumer = ParentContext.Consumer
